@@ -23,7 +23,7 @@
             --bg-secondary: #f7fafc;
             --bg-dark: #1a202c;
             --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --gradient-secondary: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --gradient-secondary: linear-gradient(135deg, #6c4fca 0%, #10147f 100%);
             --gradient-accent: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
             --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
             --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
@@ -223,20 +223,39 @@
         }
 
         .hero-visual {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 4rem 0;
+  background: var(--bg-secondary); /* Arka plan biraz ayırsın */
+}
 
-        .mockup-container {
-            position: relative;
-            animation: float-gentle 6s ease-in-out infinite;
-        }
+.mockup-container {
+  position: relative;
+  animation: float-gentle 6s ease-in-out infinite;
+  box-shadow: var(--shadow-xl); /* Derinlik versin */
+  border-radius: 20px; /* Köşeler yumuşasın */
+  overflow: hidden;
+  background: var(--bg-primary);
+  transition: transform 0.3s ease;
+}
 
-        @keyframes float-gentle {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
-        }
+.mockup-container:hover {
+  transform: scale(1.02);
+}
+
+.mockup img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 20px;
+}
+@keyframes float-gentle {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+    
 
         .mockup {
             width: 500px;
@@ -352,7 +371,7 @@
         /* Statistics Section */
         .stats {
             padding: 6rem 5%;
-            background: var(--bg-dark);
+            background: var(--bg-blue);
             color: white;
         }
 
@@ -443,7 +462,7 @@
         .capabilities-visual {
             background: var(--bg-secondary);
             border-radius: 20px;
-            height: 400px;
+            height: 300px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -606,6 +625,224 @@
             height: 4px;
             background: var(--gradient-accent);
         }
+        /* Demo Section */
+        .demo-section {
+            padding: 8rem 5%;
+            background: var(--bg-secondary);
+        }
+
+        .demo-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .demo-card {
+            background: var(--bg-primary);
+            padding: 2.5rem 2rem;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .demo-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient-accent);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .demo-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .demo-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .demo-icon {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .demo-card h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .demo-card p {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+
+        .demo-btn {
+            background: var(--gradient-primary);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        .demo-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        /* Contact Section */
+        .contact-section {
+            padding: 8rem 5%;
+            background: var(--bg-primary);
+        }
+
+        .contact-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 5rem;
+            align-items: start;
+        }
+
+        .contact-info h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .contact-info p {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 3rem;
+            line-height: 1.6;
+        }
+
+        .contact-details {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .contact-icon {
+            font-size: 1.5rem;
+            width: 50px;
+            height: 50px;
+            background: var(--gradient-primary);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .contact-item h4 {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .contact-item p {
+            color: var(--text-secondary);
+            margin: 0;
+        }
+
+        .contact-form-container {
+            background: var(--bg-secondary);
+            padding: 3rem 2.5rem;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+        }
+
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            padding: 0.75rem 1rem;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: var(--bg-primary);
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .submit-btn {
+            background: var(--gradient-primary);
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
 
         /* CTA Section */
         .cta-section {
@@ -691,6 +928,34 @@
             opacity: 1;
             transform: translateY(0);
         }
+        .carousel-container {
+    overflow: hidden;
+    max-width: 100%;
+    position: relative;
+  }
+
+  .carousel-track {
+    display: flex;
+    width: calc(300%); /* 3 slayt */
+    animation: scrollCarousel 36s linear infinite;
+  }
+
+  .carousel-item {
+    flex: 0 0 100%;
+    text-align: center;
+    font-size: 2rem;
+    padding: 4rem 2rem;
+    background: var(--gradient-primary);
+    color: white;
+    box-shadow: var(--shadow-lg);
+  }
+
+  @keyframes scrollCarousel {
+    0% { transform: translateX(0%); }
+    33.33% { transform: translateX(-100%); }
+    66.66% { transform: translateX(-200%); }
+    100% { transform: translateX(0%); }
+  }
 
         /* Responsive Design */
         @media (max-width: 768px) {
@@ -799,13 +1064,13 @@
             <div class="hero-visual">
                 <div class="mockup-container">
                     <div class="mockup">
-                        <div>Dashboard Ekran Görüntüsü</div>
+                        <div><img src ="images/main.svg" width="600" ></div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-
+   
     <!-- Features Section -->
     <section class="features" id="features">
         <div class="container">
@@ -848,29 +1113,6 @@
         </div>
     </section>
 
-    <!-- Statistics Section -->
-    <section class="stats">
-        <div class="container">
-            <div class="stats-grid">
-                <div class="stat-item">
-                    <span class="stat-number" data-target="67">0</span>
-                    <div class="stat-label">API Endpoint</div>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-number" data-target="16">0</span>
-                    <div class="stat-label">Ana Modül</div>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-number" data-target="100">0</span>
-                    <div class="stat-label">% Güvenlik</div>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-number" data-target="24">0</span>
-                    <div class="stat-label">7/24 Erişim</div>
-                </div>
-            </div>
-        </div>
-    </section>
 
     <!-- User Experience Section -->
     <section class="user-experience" id="experience">
@@ -920,10 +1162,124 @@
                         <li>API tabanlı entegrasyon</li>
                         <li>Kullanıcı yetki yönetimi</li>
                         <li>Güvenli dosya yükleme</li>
+                        <li>Soru Çözümü</li>
+
                     </ul>
                 </div>
                 <div class="capabilities-visual fade-in-up">
-                    <div>Sistem Mimarisi Görseli</div>
+                    <div><img src="images/eduCenter-homepage.png" width="700" > </div>
+                </div>
+            </div>
+        </div>
+    </section>
+     <section class="demo-section" id="demo">
+        <div class="container">
+            <div class="section-header">
+                <h2>Canlı Demo</h2>
+                <p>eduCenter'ı hemen test edin! Demo hesabı ile tüm özellikleri deneyebilirsiniz.</p>
+            </div>
+            
+            <div class="demo-content">
+                <div class="demo-card">
+                    <div class="demo-icon">🎮</div>
+                    <h3>Admin Panel Demo</h3>
+                    <p>Tüm yönetim paneli özelliklerini keşfedin</p>
+                    <a href="https:eduCenter-demo.suleymanmercan.com" target="_blank" class="demo-btn">Demo'yu Başlat</a>
+                </div>
+                <!-- <div class="demo-card">
+                    <div class="demo-icon">📱</div>
+                    <h3>API Playground</h3>
+                    <p>API endpoint'lerini canlı olarak test edin</p>
+                    <a href="http://localhost:5001/swagger" target="_blank" class="demo-btn">API Test Et</a>
+                </div>
+                <div class="demo-card">
+                    <div class="demo-icon">📊</div>
+                    <h3>Dashboard Önizleme</h3>
+                    <p>Analitik dashboard'u inceleyin</p>
+                    <a href="http://localhost:3001/dashboard-demo" target="_blank" class="demo-btn">Dashboard Gör</a>
+                </div> -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact-section" id="contact">
+        <div class="container">
+            <div class="contact-content">
+                <div class="contact-info">
+                    <h2>İletişime Geçin</h2>
+                    <p>eduCenter hakkında daha fazla bilgi almak veya özel çözümler için bizimle iletişime geçin.</p>
+                    
+                    <div class="contact-details">
+                        <div class="contact-item">
+                            <div class="contact-icon">📧</div>
+                            <div>
+                                <h4>E-posta</h4>
+                                <p>info@educenter.com</p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon">💬</div>
+                            <div>
+                                <h4>Canlı Destek</h4>
+                                <p>7/24 teknik destek</p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon">⚡</div>
+                            <div>
+                                <h4>Hızlı Yanıt</h4>
+                                <p>24 saat içinde dönüş</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="contact-form-container">
+                    <form class="contact-form" id="contactForm">
+                        <div class="form-group">
+                            <label for="name">Ad Soyad *</label>
+                            <input type="text" id="name" name="name" required>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="email">E-posta *</label>
+                                <input type="email" id="email" name="email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">Telefon</label>
+                                <input type="tel" id="phone" name="phone">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="company">Kurum/Şirket</label>
+                            <input type="text" id="company" name="company">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="subject">Konu *</label>
+                            <select id="subject" name="subject" required>
+                                <option value="">Seçiniz</option>
+                                <option value="demo">Demo Talebi</option>
+                                <option value="pricing">Fiyatlandırma</option>
+                                <option value="integration">Entegrasyon</option>
+                                <option value="support">Teknik Destek</option>
+                                <option value="other">Diğer</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="message">Mesajınız *</label>
+                            <textarea id="message" name="message" rows="5" required placeholder="eduCenter ile ilgili sorularınızı ve talepelerinizi yazabilirsiniz..."></textarea>
+                        </div>
+                        
+                        <button type="submit" class="submit-btn">
+                            <span class="btn-text">Mesaj Gönder</span>
+                            <span class="btn-loading" style="display: none;">Gönderiliyor...</span>
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -960,28 +1316,33 @@
                 </div>
                 <div class="code-preview fade-in-up">
                     <div>// Öğrenci listesi alma
+// Giriş
 POST /api/Auth/Login
+Body:
 {
-  "emailOrUsername": "admin@educenter.com",
-  "password": "Admin123!"
+  "emailOrUsername": "your_email",
+  "password": "your_password"
 }
 
+// Öğrenci Listesi
 GET /api/Students
-Authorization: Bearer token
+Authorization: Bearer <access_token>
 
-// Ders programı oluşturma
+// Ders Programı Oluştur
 POST /api/TimeTable
+Body:
 {
-  "studentId": "guid",
-  "lessonDate": "2025-08-01",
-  "startTime": "14:00",
-  "endTime": "15:00",
+  "studentId": "student-guid",
+  "lessonDate": "YYYY-MM-DD",
+  "startTime": "HH:mm",
+  "endTime": "HH:mm",
   "lessonType": "Individual"
 }
 
-// Ödeme takibi
+// Ödeme Özeti
 GET /api/Payments/summary/{studentId}
-Authorization: Bearer token</div>
+Authorization: Bearer <access_token>
+</div>
                 </div>
             </div>
         </div>
