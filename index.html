@@ -1,0 +1,1246 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>eduCenter - Akıllı Öğrenci Takip Sistemi</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #667eea;
+            --primary-dark: #5a6fd8;
+            --secondary: #764ba2;
+            --accent: #f093fb;
+            --text-primary: #2d3748;
+            --text-secondary: #4a5568;
+            --text-light: #a0aec0;
+            --bg-primary: #ffffff;
+            --bg-secondary: #f7fafc;
+            --bg-dark: #1a202c;
+            --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-secondary: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --gradient-accent: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            --shadow-xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            overflow-x: hidden;
+        }
+
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            z-index: 1000;
+            transition: all 0.3s ease;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .header.scrolled {
+            background: rgba(255, 255, 255, 0.98);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-primary);
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gradient-primary);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .cta-button {
+            background: var(--gradient-primary);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            background: var(--gradient-primary);
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="80" cy="40" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="40" cy="80" r="1" fill="rgba(255,255,255,0.1)"/></svg>');
+            animation: float 20s infinite linear;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px) rotate(0deg); }
+            100% { transform: translateY(-100px) rotate(360deg); }
+        }
+
+        .hero-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 5%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-text h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: white;
+            margin-bottom: 1.5rem;
+            line-height: 1.1;
+            animation: fadeInUp 1s ease;
+        }
+
+        .hero-text p {
+            font-size: 1.25rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 2rem;
+            animation: fadeInUp 1s ease 0.2s both;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            animation: fadeInUp 1s ease 0.4s both;
+        }
+
+        .btn-primary, .btn-secondary {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: white;
+            color: var(--primary);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .hero-visual {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .mockup-container {
+            position: relative;
+            animation: float-gentle 6s ease-in-out infinite;
+        }
+
+        @keyframes float-gentle {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .mockup {
+            width: 500px;
+            height: 350px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(20px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1.1rem;
+            box-shadow: var(--shadow-xl);
+        }
+
+        /* Features Section */
+        .features {
+            padding: 8rem 5%;
+            background: var(--bg-secondary);
+            position: relative;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 5rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-header p {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: var(--bg-primary);
+            padding: 2.5rem 2rem;
+            border-radius: 20px;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient-primary);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .feature-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--gradient-primary);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        .feature-card h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .feature-card p {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* Statistics Section */
+        .stats {
+            padding: 6rem 5%;
+            background: var(--bg-dark);
+            color: white;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 3rem;
+            text-align: center;
+        }
+
+        .stat-item {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        .stat-item.animated {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 800;
+            background: var(--gradient-accent);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 1.1rem;
+            opacity: 0.8;
+        }
+
+        /* Capabilities Section */
+        .capabilities {
+            padding: 8rem 5%;
+            background: var(--bg-primary);
+        }
+
+        .capabilities-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 5rem;
+            align-items: center;
+        }
+
+        .capabilities-text h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .capabilities-list {
+            list-style: none;
+        }
+
+        .capabilities-list li {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+        }
+
+        .capabilities-list li::before {
+            content: '✓';
+            background: var(--gradient-primary);
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        .capabilities-visual {
+            background: var(--bg-secondary);
+            border-radius: 20px;
+            height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-light);
+            font-size: 1.1rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .capabilities-visual::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(102, 126, 234, 0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* User Experience Section */
+        .user-experience {
+            padding: 8rem 5%;
+            background: var(--gradient-secondary);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .user-experience::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><polygon points="0,100 100,0 100,100" fill="rgba(255,255,255,0.05)"/></svg>');
+            pointer-events: none;
+        }
+
+        .ux-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+        }
+
+        .ux-content h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+        }
+
+        .ux-content p {
+            font-size: 1.2rem;
+            margin-bottom: 3rem;
+            opacity: 0.9;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .ux-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 4rem;
+        }
+
+        .ux-feature {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .ux-feature:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .ux-feature h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+
+        /* API Section */
+        .api-section {
+            padding: 8rem 5%;
+            background: var(--bg-secondary);
+        }
+
+        .api-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 5rem;
+            align-items: center;
+        }
+
+        .api-info h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .api-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .api-stat {
+            text-align: center;
+            padding: 1.5rem;
+            background: white;
+            border-radius: 15px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .api-stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .api-stat-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .code-preview {
+            background: var(--bg-dark);
+            color: #e2e8f0;
+            padding: 2rem;
+            border-radius: 15px;
+            font-family: 'Monaco', 'Consolas', monospace;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            overflow-x: auto;
+            position: relative;
+        }
+
+        .code-preview::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient-accent);
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 6rem 5%;
+            background: var(--gradient-primary);
+            color: white;
+            text-align: center;
+        }
+
+        .cta-section h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+        }
+
+        .cta-section p {
+            font-size: 1.2rem;
+            margin-bottom: 3rem;
+            opacity: 0.9;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--bg-dark);
+            color: white;
+            padding: 3rem 5% 2rem;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .footer-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 2rem;
+        }
+
+        .footer-text {
+            opacity: 0.7;
+            margin-bottom: 2rem;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 2rem;
+            margin-top: 2rem;
+            opacity: 0.5;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        .fade-in-up.animated {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 2rem;
+            }
+
+            .hero-text h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-buttons {
+                justify-content: center;
+                flex-direction: column;
+            }
+
+            .mockup {
+                width: 100%;
+                max-width: 400px;
+                height: 250px;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .capabilities-content,
+            .api-content {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .section-header h2 {
+                font-size: 2rem;
+            }
+
+            .capabilities-text h2,
+            .api-info h2,
+            .ux-content h2,
+            .cta-section h2 {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-text h1 {
+                font-size: 2rem;
+            }
+
+            .hero-text p {
+                font-size: 1rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .ux-features {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header" id="header">
+        <nav class="nav">
+            <div class="logo">eduCenter</div>
+            <ul class="nav-links">
+                <li><a href="#features">Özellikler</a></li>
+                <li><a href="#capabilities">Yetenekler</a></li>
+                <li><a href="#api">API</a></li>
+                <li><a href="#experience">Deneyim</a></li>
+            </ul>
+            <a href="#cta" class="cta-button">Hemen Başla</a>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1>Öğrenci takibinde<br>yeni nesil çözüm</h1>
+                <p>eduCenter ile öğrenci yönetimini, ders programlarını, ödevleri ve finansal takibi tek platformda gerçekleştirin. Modern API altyapısı ile tamamen özelleştirilebilir.</p>
+                <div class="hero-buttons">
+                    <a href="#demo" class="btn-primary">
+                        <span>Demo İzle</span>
+                        <span>▶</span>
+                    </a>
+                    <a href="#features" class="btn-secondary">
+                        <span>Keşfet</span>
+                        <span>↓</span>
+                    </a>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="mockup-container">
+                    <div class="mockup">
+                        <div>Dashboard Ekran Görüntüsü</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="container">
+            <div class="section-header">
+                <h2>Güçlü Özellikler</h2>
+                <p>eduCenter, eğitim kurumlarının ihtiyaç duyduğu tüm araçları modern ve kullanıcı dostu arayüzde sunar.</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card fade-in-up">
+                    <div class="feature-icon">👨‍🎓</div>
+                    <h3>Öğrenci Yönetimi</h3>
+                    <p>Öğrenci bilgilerini kolayca yönetin, arama yapın ve detaylı profiller oluşturun. Tüm öğrenci verileri güvenli şekilde saklanır.</p>
+                </div>
+                <div class="feature-card fade-in-up">
+                    <div class="feature-icon">📅</div>
+                    <h3>Ders Programı</h3>
+                    <p>Esnek ders programları oluşturun, zamanlamaları yönetin ve öğrencilere otomatik bildirimler gönderin.</p>
+                </div>
+                <div class="feature-card fade-in-up">
+                    <div class="feature-icon">💰</div>
+                    <h3>Finansal Takip</h3>
+                    <p>Ödemeler, borçlar ve finansal raporlar tek merkezden takip edin. Detaylı ödeme geçmişi ve otomatik hatırlatmalar.</p>
+                </div>
+                <div class="feature-card fade-in-up">
+                    <div class="feature-icon">📊</div>
+                    <h3>Sınav Sonuçları</h3>
+                    <p>TYT, AYT ve diğer sınav sonuçlarını kaydedin, analiz edin ve öğrenci gelişimini takip edin.</p>
+                </div>
+                <div class="feature-card fade-in-up">
+                    <div class="feature-icon">📝</div>
+                    <h3>Ödev Takibi</h3>
+                    <p>Ödevleri oluşturun, öğrencilere atayın ve teslim durumlarını kolayca takip edin.</p>
+                </div>
+                <div class="feature-card fade-in-up">
+                    <div class="feature-icon">🔔</div>
+                    <h3>Bildirim Sistemi</h3>
+                    <p>Önemli duyurular, hatırlatmalar ve güncellemeler için kapsamlı bildirim sistemi.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Statistics Section -->
+    <section class="stats">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <span class="stat-number" data-target="67">0</span>
+                    <div class="stat-label">API Endpoint</div>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" data-target="16">0</span>
+                    <div class="stat-label">Ana Modül</div>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" data-target="100">0</span>
+                    <div class="stat-label">% Güvenlik</div>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" data-target="24">0</span>
+                    <div class="stat-label">7/24 Erişim</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- User Experience Section -->
+    <section class="user-experience" id="experience">
+        <div class="container">
+            <div class="ux-content">
+                <h2>Kullanıcı Deneyimi Odaklı Tasarım</h2>
+                <p>eduCenter, kullanıcılarımızın feedback'leri doğrultusunda sürekli gelişen, sezgisel ve modern bir arayüze sahiptir. Her detay, kullanım kolaylığı düşünülerek tasarlanmıştır.</p>
+                
+                <div class="ux-features">
+                    <div class="ux-feature">
+                        <h3>🎨 Modern Arayüz</h3>
+                        <p>Temiz, minimalist ve göze hoş gelen tasarım</p>
+                    </div>
+                    <div class="ux-feature">
+                        <h3>📱 Responsive Tasarım</h3>
+                        <p>Tüm cihazlarda mükemmel görünüm</p>
+                    </div>
+                    <div class="ux-feature">
+                        <h3>⚡ Hızlı Performans</h3>
+                        <p>Optimize edilmiş kodlar ile hızlı yükleme</p>
+                    </div>
+                    <div class="ux-feature">
+                        <h3>🔍 Kolay Navigasyon</h3>
+                        <p>Sezgisel menü yapısı ve arama</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Capabilities Section -->
+    <section class="capabilities" id="capabilities">
+        <div class="container">
+            <div class="capabilities-content">
+                <div class="capabilities-text fade-in-up">
+                    <h2>eduCenter Neler Yapabilir?</h2>
+                    <ul class="capabilities-list">
+                        <li>Öğrenci kayıt ve profil yönetimi</li>
+                        <li>Esnek ders programı oluşturma</li>
+                        <li>Konu bazlı ders planlaması</li>
+                        <li>Ödeme takibi ve borç yönetimi</li>
+                        <li>TYT/AYT sınav sonuçları analizi</li>
+                        <li>Ödev atama ve takip sistemi</li>
+                        <li>Akıllı bildirim sistemi</li>
+                        <li>Kaynak paylaşım platformu</li>
+                        <li>Detaylı raporlama ve dashboard</li>
+                        <li>API tabanlı entegrasyon</li>
+                        <li>Kullanıcı yetki yönetimi</li>
+                        <li>Güvenli dosya yükleme</li>
+                    </ul>
+                </div>
+                <div class="capabilities-visual fade-in-up">
+                    <div>Sistem Mimarisi Görseli</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- API Section -->
+    <section class="api-section" id="api">
+        <div class="container">
+            <div class="api-content">
+                <div class="api-info fade-in-up">
+                    <h2>Güçlü API Altyapısı</h2>
+                    <p>eduCenter'ın RESTful API'si ile kendi uygulamalarınızı entegre edin veya mevcut sistemlerinizi geliştirin.</p>
+                    
+                    <div class="api-stats">
+                        <div class="api-stat">
+                            <div class="api-stat-number">67</div>
+                            <div class="api-stat-label">Toplam Endpoint</div>
+                        </div>
+                        <div class="api-stat">
+                            <div class="api-stat-number">58</div>
+                            <div class="api-stat-label">Güvenli Endpoint</div>
+                        </div>
+                        <div class="api-stat">
+                            <div class="api-stat-number">16</div>
+                            <div class="api-stat-label">Ana Kategori</div>
+                        </div>
+                        <div class="api-stat">
+                            <div class="api-stat-number">JWT</div>
+                            <div class="api-stat-label">Güvenlik Standardı</div>
+                        </div>
+                    </div>
+                    
+                    <p>Authentication, öğrenci yönetimi, ders programları, ödemeler ve daha fazlası için kapsamlı API desteği.</p>
+                </div>
+                <div class="code-preview fade-in-up">
+                    <div>// Öğrenci listesi alma
+POST /api/Auth/Login
+{
+  "emailOrUsername": "admin@educenter.com",
+  "password": "Admin123!"
+}
+
+GET /api/Students
+Authorization: Bearer token
+
+// Ders programı oluşturma
+POST /api/TimeTable
+{
+  "studentId": "guid",
+  "lessonDate": "2025-08-01",
+  "startTime": "14:00",
+  "endTime": "15:00",
+  "lessonType": "Individual"
+}
+
+// Ödeme takibi
+GET /api/Payments/summary/{studentId}
+Authorization: Bearer token</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section" id="cta">
+        <div class="container">
+            <h2>eduCenter ile Başlayın</h2>
+            <p>Modern eğitim yönetimi için ihtiyacınız olan her şey burada. Hemen başlayın ve farkı görün.</p>
+            <div class="cta-buttons">
+                <a href="#demo" class="btn-primary">Ücretsiz Demo</a>
+                <a href="#contact" class="btn-secondary">İletişime Geç</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-logo">eduCenter</div>
+            <div class="footer-text">
+                Modern eğitim kurumları için tasarlanmış akıllı öğrenci takip sistemi.
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 eduCenter. Tüm hakları saklıdır.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Header scroll effect
+        window.addEventListener('scroll', () => {
+            const header = document.getElementById('header');
+            if (window.scrollY > 100) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animated');
+                }
+            });
+        }, observerOptions);
+
+        // Observe all fade-in-up elements
+        document.querySelectorAll('.fade-in-up').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Counter animation for statistics
+        const counterObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const counter = entry.target;
+                    const target = parseInt(counter.getAttribute('data-target'));
+                    const increment = target / 100;
+                    let current = 0;
+                    
+                    const updateCounter = () => {
+                        if (current < target) {
+                            current += increment;
+                            counter.textContent = Math.ceil(current);
+                            requestAnimationFrame(updateCounter);
+                        } else {
+                            counter.textContent = target;
+                        }
+                    };
+                    
+                    updateCounter();
+                    counterObserver.unobserve(counter);
+                }
+            });
+        }, observerOptions);
+
+        // Observe stat numbers
+        document.querySelectorAll('.stat-number').forEach(el => {
+            counterObserver.observe(el);
+        });
+
+        // Feature cards hover effect
+        document.querySelectorAll('.feature-card').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.transform = 'translateY(-10px) scale(1.02)';
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+
+        // Parallax effect for hero section
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const hero = document.querySelector('.hero');
+            const mockup = document.querySelector('.mockup-container');
+            
+            if (hero && mockup) {
+                hero.style.transform = `translateY(${scrolled * 0.5}px)`;
+                mockup.style.transform = `translateY(${scrolled * 0.3}px)`;
+            }
+        });
+
+        // Dynamic gradient animation
+        let gradientAngle = 0;
+        setInterval(() => {
+            gradientAngle += 1;
+            const hero = document.querySelector('.hero');
+            if (hero) {
+                hero.style.background = `linear-gradient(${gradientAngle}deg, #667eea 0%, #764ba2 100%)`;
+            }
+        }, 100);
+
+        // Interactive mockup hover effect
+        const mockup = document.querySelector('.mockup');
+        if (mockup) {
+            mockup.addEventListener('mouseenter', () => {
+                mockup.style.transform = 'scale(1.05) rotateY(5deg)';
+                mockup.style.boxShadow = '0 30px 60px -12px rgba(0, 0, 0, 0.3)';
+            });
+            
+            mockup.addEventListener('mouseleave', () => {
+                mockup.style.transform = 'scale(1) rotateY(0deg)';
+                mockup.style.boxShadow = '0 25px 50px -12px rgba(0, 0, 0, 0.25)';
+            });
+        }
+
+        // Code preview syntax highlighting effect
+        const codePreview = document.querySelector('.code-preview div');
+        if (codePreview) {
+            const originalText = codePreview.textContent;
+            const highlightedText = originalText
+                .replace(/(POST|GET|PUT|DELETE)/g, '<span style="color: #f093fb;">$1</span>')
+                .replace(/(".*?")/g, '<span style="color: #4facfe;">$1</span>')
+                .replace(/(\/\/.*)/g, '<span style="color: #a0aec0;">$1</span>')
+                .replace(/(\{|\})/g, '<span style="color: #f5576c;">$1</span>');
+            
+            codePreview.innerHTML = highlightedText;
+        }
+
+        // Mobile menu functionality (if needed)
+        const createMobileMenu = () => {
+            if (window.innerWidth <= 768) {
+                const nav = document.querySelector('.nav');
+                const navLinks = document.querySelector('.nav-links');
+                
+                if (!document.querySelector('.mobile-menu-btn')) {
+                    const mobileMenuBtn = document.createElement('button');
+                    mobileMenuBtn.className = 'mobile-menu-btn';
+                    mobileMenuBtn.innerHTML = '☰';
+                    mobileMenuBtn.style.cssText = `
+                        background: none;
+                        border: none;
+                        font-size: 1.5rem;
+                        color: var(--text-primary);
+                        cursor: pointer;
+                    `;
+                    
+                    nav.appendChild(mobileMenuBtn);
+                    
+                    mobileMenuBtn.addEventListener('click', () => {
+                        navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
+                        if (navLinks.style.display === 'flex') {
+                            navLinks.style.cssText = `
+                                position: absolute;
+                                top: 100%;
+                                left: 0;
+                                right: 0;
+                                background: white;
+                                flex-direction: column;
+                                padding: 1rem;
+                                box-shadow: var(--shadow-lg);
+                                border-radius: 0 0 15px 15px;
+                            `;
+                        }
+                    });
+                }
+            }
+        };
+
+        // Initialize mobile menu on load and resize
+        createMobileMenu();
+        window.addEventListener('resize', createMobileMenu);
+
+        // Performance optimization: Throttle scroll events
+        let scrollTimeout;
+        const throttledScroll = () => {
+            if (scrollTimeout) return;
+            scrollTimeout = setTimeout(() => {
+                scrollTimeout = null;
+            }, 16); // ~60fps
+        };
+
+        window.addEventListener('scroll', throttledScroll);
+
+        // Add loading animation
+        window.addEventListener('load', () => {
+            document.body.style.opacity = '0';
+            document.body.style.transition = 'opacity 0.5s ease';
+            setTimeout(() => {
+                document.body.style.opacity = '1';
+            }, 100);
+        });
+
+        // Easter egg: Konami code
+        let konamiCode = [];
+        const konamiSequence = [38, 38, 40, 40, 37, 39, 37, 39, 66, 65]; // ↑↑↓↓←→←→BA
+        
+        document.addEventListener('keydown', (e) => {
+            konamiCode.push(e.keyCode);
+            if (konamiCode.length > konamiSequence.length) {
+                konamiCode.shift();
+            }
+            
+            if (JSON.stringify(konamiCode) === JSON.stringify(konamiSequence)) {
+                document.querySelector('.hero').style.background = 'linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #f9ca24, #f0932b, #eb4d4b, #6c5ce7)';
+                document.querySelector('.hero').style.backgroundSize = '400% 400%';
+                document.querySelector('.hero').style.animation = 'gradient-shift 3s ease infinite';
+                
+                // Add the animation keyframes
+                const style = document.createElement('style');
+                style.textContent = `
+                    @keyframes gradient-shift {
+                        0% { background-position: 0% 50%; }
+                        50% { background-position: 100% 50%; }
+                        100% { background-position: 0% 50%; }
+                    }
+                `;
+                document.head.appendChild(style);
+                
+                setTimeout(() => {
+                    location.reload();
+                }, 5000);
+            }
+        });
+    </script>
+</body>
+</html>
